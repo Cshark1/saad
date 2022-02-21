@@ -1,18 +1,30 @@
 import requests
 from termcolor import colored
 import xml.etree.ElementTree as ET
+import re
 import os
 
 api_key = os.environ.get("API_KEY")
 
+steam_path = "/home/cshark/.steam/root/{}"
+games = []
 owned_games_url = "https://steamcommunity.com/profiles/{}/games?tab=all&xml=1"
 path = "https://www.steamgriddb.com/api/v2/grids/steam/{}"
 steam_id_64 = "76561198267351741"
 game_id = "271590"
 nsfw = "false"
+game_id_pattern = re.compile("\d+")
+
+for item in os.listdir(steam_path.format("appcache/librarycache")):
+    res = game_id_pattern.findall(item)
+    if not res:
+        continue
+    if game_id_pattern.findall(item)[0] not in games:
+
+        games.append(game_id_pattern.findall(item)[0])
 
 
-
+"""
 while True:
     api_key = input(colored("Enter API key (Available at https://www.steamgriddb.com/profile/preferences): ", "white"))
     r = requests.get("https://www.steamgriddb.com/api/v2/grids/steam/720",
@@ -22,8 +34,7 @@ while True:
     else:
         print(colored("The API key is valid!", "green"))
         break
-
-
+"""
 
 
 
