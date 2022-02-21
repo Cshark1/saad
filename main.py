@@ -51,19 +51,18 @@ for item in os.listdir(steam_path.format("appcache/librarycache")):
 
         games.append(game_id_pattern.findall(item)[0])
 print(colored("List acquired successfully!", "green"))
+print()
 
+for gid in games:
+    print(colored("Getting image for gameid {}".format(gid), "yellow"))
+    req = requests.get(path.format(gid), headers={"Authorization": "Bearer {}".format(api_key)},
+                       params={"types": "animated", "nsfw": nsfw})
+    if req.status_code == 404:
+        print(colored("Gameid {} not found".format(gid), "red"))
+    elif not req.json()["data"]:
+        print(colored("No artwork found for game {}".format(gid), "red"))
+    else:
+        print(req.json()["data"][0]["url"])
+    print()
 
-"""
-owned_games_xml = ET.fromstring(requests.get(owned_games_url.format(steam_id_64)).text)
-for x in owned_games_xml[2]:
-     print("Geting image for game {}".format(x[1].text))
-     r = requests.get(path.format(game_id), headers={"Authorization": "Bearer {}".format(api_key)},
-                      params={"types": "animated", "nsfw": nsfw})
-     if r.status_code == 404:
-          print("Game '{}' not found".format(x[1].text))
-     if r.json()["data"][0]["url"] == []:
-          print("No artwork found for game {}".format(x[1].text))
-     print(r.json()["data"][0]["url"])
-     print(x[0].text)
-"""
 
