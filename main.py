@@ -25,8 +25,24 @@ while True:
         print(colored("The API key is valid!", "green"))
         break
 
+print()
 
+while True:
+    response = input(colored("Do you want nsfw images? [Y]es/[N]o: ", "white"))
+    if response.lower() == "y" or response.lower() == "yes":
+        nsfw = "true"
+        print(colored("NSFW content will be included in the results!", "green"))
+        break
+    elif response.lower() == "n" or response.lower() == "no":
+        nsfw = "false"
+        print(colored("NSFW content will be excluded from the results!", "green"))
+        break
+    else:
+        print(colored("Please respond with [Y]es/[N]o!", "red"))
+
+print()
 print(colored("Getting a list of all games on your account...", "yellow"))
+print()
 for item in os.listdir(steam_path.format("appcache/librarycache")):
     res = game_id_pattern.findall(item)
     if not res:
